@@ -171,45 +171,83 @@
                     ×
                 </button>
             </div>
-            <div
-                class="dss-modal-body"
-                style="display: flex; flex-direction: column; gap: 14px"
-            >
-                <div v-for="(val, label) in detailRows" :key="label">
-                    <div class="form-label">{{ label }}</div>
-                    <div
-                        style="
-                            font-size: 14px;
-                            color: var(--navy);
-                            font-weight: 500;
-                        "
+            <div class="dss-modal-body">
+                <div class="mb-2">
+                    <strong>Nama:</strong>
+                    <div class="text-muted">{{ detailItem.nama }}</div>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Prioritas:</strong><br />
+                    <span
+                        class="badge rounded-pill px-3 py-2 mt-1"
+                        :class="{
+                            'bg-danger': detailItem.urgensi === 'tinggi',
+                            'bg-warning text-dark':
+                                detailItem.urgensi === 'sedang',
+                            'bg-secondary': detailItem.urgensi === 'rendah',
+                        }"
                     >
-                        {{ val }}
+                        {{ detailItem.urgensi }}
+                    </span>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Jenis Bantuan:</strong>
+                    <div class="text-muted">{{ detailItem.jenis }}</div>
+                </div>
+
+                <div class="mb-2">
+                    <strong>Tanggal:</strong>
+                    <div class="text-muted">
+                        {{
+                            detailItem.created_at
+                                ? new Date(
+                                      detailItem.created_at,
+                                  ).toLocaleDateString("id-ID")
+                                : "-"
+                        }}
                     </div>
                 </div>
 
-                <!-- UPDATE STATUS INLINE -->
-                <div>
+                <div class="mb-2">
+                    <strong>Status:</strong><br />
+                    <span
+                        class="badge rounded-pill px-3 py-2 mt-1"
+                        :class="statusClassFor(detailItem.statusVal)"
+                    >
+                        {{
+                            detailItem.statusVal === "pending"
+                                ? "Belum Disalurkan"
+                                : detailItem.statusVal === "diproses"
+                                  ? "Diproses"
+                                  : "Disalurkan"
+                        }}
+                    </span>
+                </div>
+
+                <!-- UPDATE STATUS -->
+                <div class="mt-3">
                     <div class="form-label">Perbarui Status</div>
+
                     <select
                         v-model="detailItem.statusVal"
                         class="form-control"
                         style="text-align: left"
                     >
                         <option value="pending">Belum Disalurkan</option>
-
                         <option value="diproses">Diproses</option>
-
                         <option value="disalurkan">Disalurkan</option>
                     </select>
                 </div>
 
-                <div>
+                <div class="mt-3">
                     <div class="form-label">Catatan Petugas</div>
+
                     <textarea
                         v-model="detailItem.catatan"
                         class="form-control"
-                        style="text-align: left; min-height: 70px"
+                        rows="3"
                         placeholder="Tambahkan catatan..."
                     ></textarea>
                 </div>

@@ -31,6 +31,7 @@ class PenerimaBantuanController extends Controller
                     'status' => $this->formatStatus($item['request_status'] ?? 'pending'),
                     'jenis' => $item['jenis_bantuan'] ?? 'Bantuan Sosial',
                     'urgensi' => $item['urgensi'] ?? 'rendah',
+                    'catatan' => $item['catatan'] ?? null,
                     'tanggal_pengajuan' => $item['tanggal_pengajuan'] ?? now()->toDateString(),
                 ];
             })

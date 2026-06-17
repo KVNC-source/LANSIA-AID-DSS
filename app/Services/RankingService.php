@@ -142,6 +142,7 @@ class RankingService
                 'pengajuan_id' => $request?->id,
                 'jenis_bantuan' => $requestJenis ?? 'Bantuan Sosial',
                 'urgensi' => $requestUrgency ?? 'rendah',
+                'catatan' => $request?->catatan,
                 'tanggal_pengajuan' => $requestDate ?? now()->toDateString(),
                 'urgency_bonus' => round($urgencyBonus, 4),
                 'detail' => $detail

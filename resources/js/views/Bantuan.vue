@@ -180,37 +180,79 @@
                 </button>
             </div>
             <div class="dss-modal-body">
-                <div class="mb-2">
-                    <strong>Nama:</strong>
-                    <div class="text-muted">{{ detailItem.nama }}</div>
-                </div>
-                <div class="mb-2">
-                    <strong>Prioritas:</strong><br />
-                    <span
-                        class="badge rounded-pill px-3 py-2 mt-1"
-                        :class="detailItem.prioClass"
-                        >{{ detailItem.prioritas }}</span
-                    >
-                </div>
-                <div class="mb-2">
-                    <strong>Jenis Bantuan:</strong>
-                    <div class="text-muted">{{ detailItem.jenis }}</div>
-                </div>
-                <div class="mb-2">
-                    <strong>Urgensi:</strong>
-                    <div class="text-muted">{{ detailItem.urgensi }}</div>
-                </div>
-                <div class="mb-2">
-                    <strong>Tanggal:</strong>
-                    <div class="text-muted">{{ detailItem.tanggal }}</div>
-                </div>
-                <div class="mb-2">
-                    <strong>Status:</strong><br />
-                    <span
-                        class="badge rounded-pill px-3 py-2 mt-1"
-                        :class="detailItem.statusClass"
-                        >{{ detailItem.status }}</span
-                    >
+                <div class="dashboard-preview p-3">
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lansia</label>
+                        <input
+                            class="form-control"
+                            :value="detailItem.nama"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Prioritas</label>
+                            <div>
+                                <span
+                                    class="badge rounded-pill px-3 py-2"
+                                    :class="detailItem.prioClass"
+                                >
+                                    {{ detailItem.prioritas }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Status</label>
+                            <div>
+                                <span
+                                    class="badge rounded-pill px-3 py-2"
+                                    :class="detailItem.statusClass"
+                                >
+                                    {{ detailItem.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Bantuan</label>
+                        <input
+                            class="form-control"
+                            :value="detailItem.jenis"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Urgensi</label>
+                        <input
+                            class="form-control"
+                            :value="detailItem.urgensi"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Pengajuan</label>
+                        <input
+                            class="form-control"
+                            :value="detailItem.tanggal"
+                            readonly
+                        />
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label">Catatan</label>
+
+                        <textarea
+                            class="form-control"
+                            rows="4"
+                            readonly
+                            :value="detailItem.catatan || 'Tidak ada catatan'"
+                        ></textarea>
+                    </div>
                 </div>
             </div>
         </div>
