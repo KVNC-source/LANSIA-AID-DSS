@@ -240,19 +240,6 @@
                         </div>
                     </div>
 
-                    <!-- TANGGAL -->
-                    <div class="mb-3">
-                        <label class="form-label"> Tanggal Pengajuan </label>
-
-                        <div class="form-control bg-light">
-                            {{
-                                new Date(
-                                    detailItem.created_at,
-                                ).toLocaleDateString("id-ID")
-                            }}
-                        </div>
-                    </div>
-
                     <!-- CATATAN ADMIN -->
                     <div class="mb-3">
                         <label class="form-label"> Catatan Admin </label>
@@ -346,10 +333,6 @@ const detailRows = computed(() => {
         Status: detailItem.value.status,
 
         Keterangan: detailItem.value.keterangan || "-",
-
-        "Tanggal Pengajuan": detailItem.value.created_at
-            ? new Date(detailItem.value.created_at).toLocaleDateString("id-ID")
-            : "-",
     };
 });
 
