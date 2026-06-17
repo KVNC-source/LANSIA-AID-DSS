@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PengajuanBantuan;
 use App\Services\ValidationService;
 use Illuminate\Http\Request;
-
+use App\Services\RankingService;
 class PengajuanBantuanController extends Controller
 {
     public function __construct(
@@ -14,28 +14,40 @@ class PengajuanBantuanController extends Controller
     ) {
     }
 
-    public function index()
-    {
-        $pengajuans = PengajuanBantuan::with('lansia')
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function (PengajuanBantuan $item) {
-                return [
-                    'id' => $item->id,
-                    'lansia_id' => $item->lansia_id,
-                    'nama' => $item->lansia?->nama,
-                    'jenis' => $item->jenis,
-                    'urgensi' => $item->urgensi,
-                    'status' => $item->status,
-                    'catatan' => $item->catatan,
-                    'tanggal_pengajuan' => $item->created_at?->toDateString(),
-                ];
-            });
+    public function index(RankingService $rankingService)
+{
+    $ranking = collect(
+        $rankingService->hitung()['ranking']
+    )->keyBy('pengajuan_id');
 
-        return response()->json([
-            'data' => $pengajuans
-        ]);
-    }
+    $pengajuans = PengajuanBantuan::with('lansia')
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function (PengajuanBantuan $item) use ($ranking) {
+
+            $rankData = $ranking->get($item->id);
+
+            return [
+                'id' => $item->id,
+                'rank' => $rankData['rank'] ?? null,
+
+                'lansia_id' => $item->lansia_id,
+                'nama' => $item->lansia?->nama,
+
+                'jenis' => $item->jenis,
+                'urgensi' => $item->urgensi,
+                'status' => $item->status,
+                'catatan' => $item->catatan,
+
+                'tanggal_pengajuan' =>
+                    $item->created_at?->toDateString(),
+            ];
+        });
+
+    return response()->json([
+        'data' => $pengajuans
+    ]);
+}
 
     public function store(Request $request)
     {
