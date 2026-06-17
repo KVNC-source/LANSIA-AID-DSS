@@ -278,18 +278,6 @@
                             <option value="disalurkan">Disalurkan</option>
                         </select>
                     </div>
-
-                    <!-- CATATAN PETUGAS -->
-                    <div class="mb-0">
-                        <label class="form-label"> Catatan Petugas </label>
-
-                        <textarea
-                            v-model="detailItem.catatanPetugas"
-                            class="form-control"
-                            rows="4"
-                            placeholder="Tambahkan catatan penyaluran..."
-                        ></textarea>
-                    </div>
                 </div>
             </div>
 
