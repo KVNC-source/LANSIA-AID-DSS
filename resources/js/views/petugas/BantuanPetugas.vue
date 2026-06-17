@@ -72,21 +72,24 @@
                             <span
                                 class="badge rounded-pill px-3 py-2"
                                 :class="{
-                                    'bg-danger': item.urgensi === 'tinggi',
+                                    'bg-danger': item.rank === 1,
                                     'bg-warning text-dark':
-                                        item.urgensi === 'sedang',
-                                    'bg-secondary': item.urgensi === 'rendah',
+                                        item.rank <= 3 && item.rank > 1,
+                                    'bg-primary': item.rank > 3,
+                                    'bg-secondary': !item.rank,
                                 }"
                             >
-                                {{ item.urgensi }}
+                                {{ item.rank ? `Rank #${item.rank}` : "-" }}
                             </span>
                         </td>
                         <td class="text-muted">{{ item.jenis }}</td>
                         <td class="text-muted small">
                             {{
-                                new Date(item.created_at).toLocaleDateString(
-                                    "id-ID",
-                                )
+                                item.tanggal_pengajuan
+                                    ? new Date(
+                                          item.tanggal_pengajuan,
+                                      ).toLocaleDateString("id-ID")
+                                    : "-"
                             }}
                         </td>
                         <td>
