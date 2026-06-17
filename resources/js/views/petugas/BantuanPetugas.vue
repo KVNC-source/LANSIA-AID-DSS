@@ -171,91 +171,133 @@
                     ×
                 </button>
             </div>
+
             <div class="dss-modal-body">
-                <div class="mb-2">
-                    <strong>Nama:</strong>
-                    <div class="text-muted">{{ detailItem.nama }}</div>
-                </div>
+                <div class="dashboard-preview p-4">
+                    <!-- NAMA -->
+                    <div class="mb-3">
+                        <label class="form-label">Nama Lansia</label>
+                        <div class="form-control bg-light">
+                            {{ detailItem.nama }}
+                        </div>
+                    </div>
 
-                <div class="mb-2">
-                    <strong>Prioritas:</strong><br />
-                    <span
-                        class="badge rounded-pill px-3 py-2 mt-1"
-                        :class="{
-                            'bg-danger': detailItem.urgensi === 'tinggi',
-                            'bg-warning text-dark':
-                                detailItem.urgensi === 'sedang',
-                            'bg-secondary': detailItem.urgensi === 'rendah',
-                        }"
-                    >
-                        {{ detailItem.urgensi }}
-                    </span>
-                </div>
+                    <!-- PRIORITAS -->
+                    <div class="mb-3">
+                        <label class="form-label">Prioritas</label>
 
-                <div class="mb-2">
-                    <strong>Jenis Bantuan:</strong>
-                    <div class="text-muted">{{ detailItem.jenis }}</div>
-                </div>
+                        <div>
+                            <span
+                                class="badge rounded-pill px-3 py-2"
+                                :class="{
+                                    'bg-danger': detailItem.rank === 1,
+                                    'bg-warning text-dark':
+                                        detailItem.rank <= 3 &&
+                                        detailItem.rank > 1,
+                                    'bg-primary': detailItem.rank > 3,
+                                }"
+                            >
+                                Rank #{{ detailItem.rank }}
+                            </span>
+                        </div>
+                    </div>
 
-                <div class="mb-2">
-                    <strong>Tanggal:</strong>
-                    <div class="text-muted">
-                        {{
-                            detailItem.created_at
-                                ? new Date(
-                                      detailItem.created_at,
-                                  ).toLocaleDateString("id-ID")
-                                : "-"
-                        }}
+                    <!-- STATUS -->
+                    <div class="mb-3">
+                        <label class="form-label">Status Saat Ini</label>
+
+                        <div>
+                            <span
+                                class="badge rounded-pill px-3 py-2"
+                                :class="statusClassFor(detailItem.status)"
+                            >
+                                {{
+                                    detailItem.status === "pending"
+                                        ? "Belum Disalurkan"
+                                        : detailItem.status === "diproses"
+                                          ? "Diproses"
+                                          : "Disalurkan"
+                                }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- JENIS -->
+                    <div class="mb-3">
+                        <label class="form-label"> Jenis Bantuan </label>
+
+                        <div class="form-control bg-light">
+                            {{ detailItem.jenis }}
+                        </div>
+                    </div>
+
+                    <!-- URGENSI -->
+                    <div class="mb-3">
+                        <label class="form-label"> Urgensi </label>
+
+                        <div class="form-control bg-light">
+                            {{ detailItem.urgensi }}
+                        </div>
+                    </div>
+
+                    <!-- TANGGAL -->
+                    <div class="mb-3">
+                        <label class="form-label"> Tanggal Pengajuan </label>
+
+                        <div class="form-control bg-light">
+                            {{
+                                new Date(
+                                    detailItem.created_at,
+                                ).toLocaleDateString("id-ID")
+                            }}
+                        </div>
+                    </div>
+
+                    <!-- CATATAN ADMIN -->
+                    <div class="mb-3">
+                        <label class="form-label"> Catatan Admin </label>
+
+                        <textarea class="form-control" rows="4" readonly
+                            >{{ detailItem.catatan || "Tidak ada catatan" }}
+                    </textarea
+                        >
+                    </div>
+
+                    <!-- UPDATE STATUS -->
+                    <div class="mb-3">
+                        <label class="form-label"> Perbarui Status </label>
+
+                        <select
+                            v-model="detailItem.statusVal"
+                            class="form-control"
+                        >
+                            <option value="pending">Belum Disalurkan</option>
+
+                            <option value="diproses">Diproses</option>
+
+                            <option value="disalurkan">Disalurkan</option>
+                        </select>
+                    </div>
+
+                    <!-- CATATAN PETUGAS -->
+                    <div class="mb-0">
+                        <label class="form-label"> Catatan Petugas </label>
+
+                        <textarea
+                            v-model="detailItem.catatanPetugas"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Tambahkan catatan penyaluran..."
+                        ></textarea>
                     </div>
                 </div>
-
-                <div class="mb-2">
-                    <strong>Status:</strong><br />
-                    <span
-                        class="badge rounded-pill px-3 py-2 mt-1"
-                        :class="statusClassFor(detailItem.statusVal)"
-                    >
-                        {{
-                            detailItem.statusVal === "pending"
-                                ? "Belum Disalurkan"
-                                : detailItem.statusVal === "diproses"
-                                  ? "Diproses"
-                                  : "Disalurkan"
-                        }}
-                    </span>
-                </div>
-
-                <!-- UPDATE STATUS -->
-                <div class="mt-3">
-                    <div class="form-label">Perbarui Status</div>
-
-                    <select
-                        v-model="detailItem.statusVal"
-                        class="form-control"
-                        style="text-align: left"
-                    >
-                        <option value="pending">Belum Disalurkan</option>
-                        <option value="diproses">Diproses</option>
-                        <option value="disalurkan">Disalurkan</option>
-                    </select>
-                </div>
-
-                <div class="mt-3">
-                    <div class="form-label">Catatan Petugas</div>
-
-                    <textarea
-                        v-model="detailItem.catatan"
-                        class="form-control"
-                        rows="3"
-                        placeholder="Tambahkan catatan..."
-                    ></textarea>
-                </div>
             </div>
+
             <div class="dss-modal-footer">
                 <button class="btn btn-secondary" @click="detailItem = null">
                     Tutup
                 </button>
+
                 <button class="btn btn-dark" @click="simpanDetail">
                     Simpan Perubahan
                 </button>
