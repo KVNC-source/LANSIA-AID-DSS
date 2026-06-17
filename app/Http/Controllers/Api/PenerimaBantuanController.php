@@ -19,7 +19,9 @@ class PenerimaBantuanController extends Controller
 
         $limit = (int) ($validated['limit'] ?? 10);
 
-        $penerima = collect($rankingService->hitung())
+        $hasil = $rankingService->hitung();
+
+        $penerima = collect($hasil['ranking'])
             ->take($limit)
             ->map(function ($item) {
                 return [
@@ -28,14 +30,18 @@ class PenerimaBantuanController extends Controller
                     'lansia_id' => $item['lansia_id'],
                     'nama' => $item['nama'],
                     'skor' => $item['skor'],
-                    'status' => $this->formatStatus($item['request_status'] ?? 'pending'),
+                    'status' => $this->formatStatus(
+                        $item['request_status'] ?? 'pending'
+                    ),
                     'jenis' => $item['jenis_bantuan'] ?? 'Bantuan Sosial',
                     'urgensi' => $item['urgensi'] ?? 'rendah',
                     'catatan' => $item['catatan'] ?? null,
-                    'tanggal_pengajuan' => $item['tanggal_pengajuan'] ?? now()->toDateString(),
+                    'tanggal_pengajuan' =>
+                        $item['tanggal_pengajuan']
+                        ?? now()->toDateString(),
                 ];
             })
-            ->values();
+    ->values();
 
         return response()->json([
             'jumlah_penerima' => $penerima->count(),

@@ -92,13 +92,6 @@
                                     label="Pengguna"
                                 />
                             </li>
-                            <li>
-                                <NavLink
-                                    to="/admin/laporan"
-                                    icon="FileBarChart"
-                                    label="Laporan"
-                                />
-                            </li>
                         </template>
 
                         <!-- ════════ MENU PETUGAS ════════ -->

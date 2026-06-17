@@ -119,11 +119,10 @@ class RankingService
             }
 
             $request = $item->pengajuans
-                ->where('status', '!=', 'disalurkan')
-                ->sortByDesc(function ($request) {
-                    return $this->urgencyWeight($request->urgensi);
-                })
-                ->first();
+            ->sortByDesc(function ($request) {
+                return $this->urgencyWeight($request->urgensi);
+            })
+            ->first();
 
             $requestUrgency = $request?->urgensi;
             $requestJenis = $request?->jenis;

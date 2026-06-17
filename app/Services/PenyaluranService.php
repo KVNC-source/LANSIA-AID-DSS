@@ -59,16 +59,19 @@ class PenyaluranService
             $rankData = $ranking->get($pengajuan->lansia_id, []);
 
             return [
-                'rank' => $rankData['rank'] ?? null,
-                'pengajuan_id' => $pengajuan->id,
-                'lansia_id' => $pengajuan->lansia_id,
-                'nama' => $pengajuan->lansia?->nama ?? null,
-                'skor' => isset($rankData['skor']) ? round($rankData['skor'], 4) : null,
-                'jenis' => $pengajuan->jenis,
-                'urgensi' => $pengajuan->urgensi,
-                'status' => $pengajuan->status,
-                'tanggal_pengajuan' => $pengajuan->created_at?->toDateString(),
-            ];
+            'rank' => $rankData['rank'] ?? null,
+            'pengajuan_id' => $pengajuan->id,
+            'lansia_id' => $pengajuan->lansia_id,
+            'nama' => $pengajuan->lansia?->nama ?? null,
+            'skor' => isset($rankData['skor']) ? round($rankData['skor'], 4) : null,
+            'jenis' => $pengajuan->jenis,
+            'urgensi' => $pengajuan->urgensi,
+            'status' => $pengajuan->status,
+
+            'catatan' => $pengajuan->catatan, // ADD THIS
+
+            'tanggal_pengajuan' => $pengajuan->created_at?->toDateString(),
+        ];
         });
 
         return $applicants
